@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineApp - Book Movie Tickets</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/home.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-ticket-alt me-2 text-primary"></i>
+                    <span class="fw-bold">CineApp</span>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto me-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="allmovies.html">Movies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact Us</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <!-- Login/Signup buttons (shown when logged out) -->
+                    <a href="login.html" class="btn btn-outline-primary rounded-pill px-4 py-2 me-2 login-btn">
+                        <i class="fas fa-user-circle me-1"></i> Login
+                    </a>
+                    <a href="signup.html" class="btn btn-primary rounded-pill px-4 py-2 signup-btn">
+                        <i class="fas fa-user-plus me-1"></i> Sign Up
+                    </a>
+                    
+                    <!-- Profile dropdown (shown when logged in) -->
+                    <div class="dropdown profile-menu" style="display: none;">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="rounded-circle overflow-hidden" style="width: 35px; height: 35px;">
+                                <img src="https://ui-avatars.com/api/?name=John+Doe&background=0065ff&color=fff" class="img-fluid" alt="Profile">
+                            </div>
+                            <span class="ms-2 d-none d-sm-inline user-name">John</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-ticket-alt me-2"></i> My Tickets</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i> Watchlist</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item logout-btn" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <br><br><br>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg-overlay"></div>
+        <img src="https://source.unsplash.com/random/1920x1080/?cinema,movie" alt="Cinema Background" class="hero-bg-video">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Experience Movies Like Never Before</h1>
+                <p class="hero-text">Book tickets for your favorite movies in premium theaters near you. Best prices, exclusive offers, and seamless booking experience.</p>
+                <div class="d-flex justify-content-center">
+                    <a href="movie.html" class="btn btn-primary"><i class="fas fa-ticket-alt me-2"></i> Book Tickets</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Now Showing Section -->
+        <section class="container py-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="section-title mb-1">Now Showing</h2>
+                    <p class="section-subtitle">Watch these movies in theaters now</p>
+                </div>
+                <a href="allmovies.html#now-showing" class="btn btn-outline-primary">View All</a>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-3 col-md-6 fade-in">
+                    <div class="movie-card">
+                        <a href="#" class="bookmark-btn"><i class="far fa-bookmark"></i></a>
+                        <img src="images/movie1.jpg" alt="Movie Poster" class="img-fluid">
+                        <div class="movie-info">
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span class="ms-1">4.0</span>
+                            </div>
+                            <h5 class="movie-title">Avengers</h5>
+                            <div class="mb-2">
+                                <span class="badge badge-warning">PG-13</span>
+                                <span class="badge badge-danger">Sci-Fi</span>
+                                <span class="badge badge-secondary">Action</span>
+                            </div>
+                            <div class="movie-meta">
+                                <span><i class="far fa-clock me-1"></i> 148 min</span>
+                                <a href="movie.html" class="btn btn-sm btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 fade-in" style="transition-delay: 0.1s;">
+                    <div class="movie-card">
+                        <a href="#" class="bookmark-btn"><i class="far fa-bookmark"></i></a>
+                        <img src="images/movie1.jpg" alt="Movie Poster" class="img-fluid">
+                        <div class="movie-info">
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="ms-1">4.5</span>
+                            </div>
+                            <h5 class="movie-title">Dune</h5>
+                            <div class="mb-2">
+                                <span class="badge badge-warning">PG-13</span>
+                                <span class="badge badge-info">Adventure</span>
+                                <span class="badge badge-danger">Sci-Fi</span>
+                            </div>
+                            <div class="movie-meta">
+                                <span><i class="far fa-clock me-1"></i> 155 min</span>
+                                <a href="movie.html" class="btn btn-sm btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 fade-in" style="transition-delay: 0.2s;">
+                    <div class="movie-card">
+                        <a href="#" class="bookmark-btn"><i class="far fa-bookmark"></i></a>
+                        <img src="images/movie1.jpg" alt="Movie Poster" class="img-fluid">
+                        <div class="movie-info">
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span class="ms-1">3.0</span>
+                            </div>
+                            <h5 class="movie-title">Eternals</h5>
+                            <div class="mb-2">
+                                <span class="badge badge-warning">PG-13</span>
+                                <span class="badge badge-secondary">Action</span>
+                                <span class="badge badge-info">Fantasy</span>
+                            </div>
+                            <div class="movie-meta">
+                                <span><i class="far fa-clock me-1"></i> 157 min</span>
+                                <a href="movie.html" class="btn btn-sm btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 fade-in" style="transition-delay: 0.3s;">
+                    <div class="movie-card">
+                        <a href="#" class="bookmark-btn"><i class="far fa-bookmark"></i></a>
+                        <img src="images/movie1.jpg" alt="Movie Poster" class="img-fluid">
+                        <div class="movie-info">
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="ms-1">5.0</span>
+                            </div>
+                            <h5 class="movie-title">No Time to Die</h5>
+                            <div class="mb-2">
+                                <span class="badge badge-warning">PG-13</span>
+                                <span class="badge badge-secondary">Action</span>
+                                <span class="badge badge-dark">Thriller</span>
+                            </div>
+                            <div class="movie-meta">
+                                <span><i class="far fa-clock me-1"></i> 163 min</span>
+                                <a href="movie.html" class="btn btn-sm btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Movie -->
+        <section class="featured-section">
+            <div class="container featured-content">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 slide-right">
+                        <h2 class="featured-title">Featured: <span>Avatar 2: The Way of Water</span></h2>
+                        <p class="featured-text">Jake Sully lives with his newfound family formed on the planet of Pandora. Once a familiar threat returns to finish what was previously started, Jake must work with Neytiri and the army of the Na'vi race to protect their planet.</p>
+                        
+                        <div class="mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-4">
+                                    <span class="d-block text-muted">Director</span>
+                                    <strong>James Cameron</strong>
+                                </div>
+                                <div>
+                                    <span class="d-block text-muted">Release Date</span>
+                                    <strong>Dec 16, 2022</strong>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex">
+                                <span class="badge bg-light text-dark me-2">3h 12m</span>
+                                <span class="badge bg-light text-dark me-2">PG-13</span>
+                                <span class="badge bg-light text-dark me-2">IMAX</span>
+                                <span class="badge bg-light text-dark me-2">3D</span>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex">
+                            <a href="movie.html" class="btn btn-primary me-3"><i class="fas fa-ticket-alt me-2"></i> Book Tickets</a>
+                            <a href="#" class="btn btn-outline-light"><i class="fas fa-play me-2"></i> Watch Trailer</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6 text-center text-lg-end mt-4 mt-lg-0 slide-left">
+                        <img src="images/movie1.jpg" alt="Avatar 2" class="img-fluid rounded-4" style="max-width: 90%; box-shadow: 0 15px 30px rgba(0,0,0,0.3);">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FAQ Section -->
+        <section class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="section-title d-inline-block">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Answers to common questions about our services</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item mb-3 border rounded-4 overflow-hidden">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    How do I book movie tickets on CineMAS?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Booking tickets is simple! Search for your desired movie or browse the 'Now Showing' section, select your preferred theater, date, and showtime. Choose your seats, complete the payment process, and you'll receive your e-tickets via email and in your CineMAS account.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item mb-3 border rounded-4 overflow-hidden">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Can I cancel or refund my movie tickets?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Refund policies vary by theater. Generally, tickets can be refunded up to 2 hours before showtime. Some premium experiences may have different policies. Check the refund policy during checkout or contact our customer support for assistance.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item mb-3 border rounded-4 overflow-hidden">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    How does the rewards program work?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Our rewards program lets you earn points for every ticket purchased. You earn 10 points per dollar spent, and these points can be redeemed for free tickets, concession stand discounts, movie merchandise, and exclusive movie experiences. Points expire after 12 months of inactivity.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border rounded-4 overflow-hidden">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    How do I use mobile tickets at the theater?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Simply open the CineMAS and navigate to "My Tickets" section. Show the QR code to the theater attendant or scan it at the self-service kiosks available at most locations. No need to print physical tickets!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p class="mb-3">Still have questions? Contact our support team</p>
+                <a href="contact.html" class="btn btn-outline-primary"><i class="fas fa-headset me-2"></i> Contact Support</a>
+            </div>
+        </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <div class="mb-4">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none">
+                            <i class="fas fa-ticket-alt me-2 text-primary"></i>
+                            <span class="fs-4 fw-bold">CineApp</span>
+                        </a>
+                    </div>
+                    <p class="text-white-50 mb-4">The easiest way to book movie tickets. Browse showtimes, select your seats, and experience the magic of cinema - all in one place.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Movies</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cinemas</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Offers & Promos</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Gift Cards</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Coming Soon</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Movie News</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="footer-title">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> My Account</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Help Center</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="footer-title">Features</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Rewards Program</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Partner Program</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Corporate Bookings</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Premium Access</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Student Discounts</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Movie Events</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-title">Download Our App</h5>
+                    <p class="text-white-50 mb-3">Scan the QR code to download the mobile app</p>
+                    <div class="bg-white p-3 rounded-3 mb-3 d-inline-block">
+                        <img src="https://via.placeholder.com/120x120?text=QR+Code" alt="QR Code" class="img-fluid" style="width: 120px;">
+                    </div>
+                    <div class="d-flex flex-column flex-sm-row">
+                        <a href="#" class="btn btn-sm btn-outline-light d-flex align-items-center me-sm-2 mb-2 mb-sm-0">
+                            <i class="fab fa-google-play me-2 fs-5"></i> Google Play
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-light d-flex align-items-center">
+                            <i class="fab fa-apple me-2 fs-5"></i> App Store
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; 2025 CineApp. All Rights Reserved.
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="d-inline-flex">
+                            <img src="https://via.placeholder.com/40x25?text=Visa" alt="Payment Method" class="me-2">
+                            <img src="https://via.placeholder.com/40x25?text=MC" alt="Payment Method" class="me-2">
+                            <img src="https://via.placeholder.com/40x25?text=Amex" alt="Payment Method" class="me-2">
+                            <img src="https://via.placeholder.com/40x25?text=PayPal" alt="Payment Method">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Back to top button -->
+    <a href="#" class="back-to-top btn btn-primary rounded-circle" style="position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; z-index: 999;">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Notification container -->
+    <div class="notification-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+
+    <!-- JavaScript libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        // Preloader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('preloader').style.display = 'none';
+                }, 500);
+            }, 500);
+        });
+        
+        // Scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Activate animations when elements come into view
+            const animateElements = document.querySelectorAll('.fade-in, .slide-up, .slide-right, .slide-left, .zoom-in');
+            
+            const observerOptions = {
+                threshold: 0.2
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Back to top button
+            const backToTop = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTop.style.opacity = '1';
+                    backToTop.style.pointerEvents = 'auto';
+                } else {
+                    backToTop.style.opacity = '0';
+                    backToTop.style.pointerEvents = 'none';
+                }
+            });
+            
+            // Counter animation for stats section
+            const counterElements = document.querySelectorAll('[data-counter]');
+            const counterObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const counterValue = parseFloat(target.getAttribute('data-counter'));
+                        let count = 0;
+                        
+                        if (counterValue < 10) {
+                            // For decimal numbers
+                            const increment = counterValue / 50;
+                            const interval = setInterval(function() {
+                                count += increment;
+                                if (count >= counterValue) {
+                                    target.textContent = counterValue + '+';
+                                    clearInterval(interval);
+                                } else {
+                                    target.textContent = count.toFixed(1) + '+';
+                                }
+                            }, 40);
+                        } else {
+                            // For whole numbers
+                            const increment = Math.ceil(counterValue / 50);
+                            const interval = setInterval(function() {
+                                count += increment;
+                                if (count >= counterValue) {
+                                    target.textContent = counterValue + '+';
+                                    clearInterval(interval);
+                                } else {
+                                    target.textContent = count + '+';
+                                }
+                            }, 40);
+                        }
+                        
+                        counterObserver.unobserve(target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            counterElements.forEach(element => {
+                counterObserver.observe(element);
+            });
+        });
+        
+        // Integration with cart functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update all book now buttons to add to cart when clicked
+            const bookButtons = document.querySelectorAll('.btn-primary:not([href]), .btn-primary[href="movie.html"]');
+            bookButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === 'movie.html') {
+                        // Let the default link behavior work
+                        return true;
+                    }
+                    
+                    e.preventDefault();
+                    
+                    // Get movie data from parent card
+                    const movieCard = this.closest('.movie-card');
+                    if (!movieCard) return;
+                    
+                    const title = movieCard.querySelector('.movie-title').textContent;
+                    const image = movieCard.querySelector('img').src;
+                    const format = '2D'; // Default format
+                    
+                    // Sample movie data for cart
+                    const movieData = {
+                        id: Math.floor(Math.random() * 1000), // Random ID for demo
+                        title: title,
+                        date: 'Tuesday, March 15, 2024', // Default date
+                        time: '7:30 PM', // Default time
+                        format: format,
+                        theater: 'CineWorld Colombo City Centre', // Default theater
+                        seats: ['A1'], // Default single seat
+                        quantity: 1,
+                        price: 1000, // Default price
+                        image: image
+                    };
+                    
+                    // Call add to cart function from cart.js
+                    if (typeof window.addToCart === 'function') {
+                        window.addToCart(movieData);
+                        showNotification(`Added "${title}" to cart!`, 'success');
+                    }
+                });
+            });
+        });
+        
+        // Show notification helper function
+        function showNotification(message, type) {
+            const notificationContainer = document.querySelector('.notification-container');
+            
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} notification`;
+            notification.style.cssText = `
+                margin-bottom: 10px;
+                min-width: 300px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                animation: slide-in 0.3s forwards;
+            `;
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            notificationContainer.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slide-out 0.3s forwards';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+        
+        // Animation for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slide-in {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slide-out {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

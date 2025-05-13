@@ -1,0 +1,1602 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineApp - Movie Experience</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0065ff;
+            --primary-light: #4d94ff;
+            --primary-dark: #0048b3;
+            --secondary: #00c3ff;
+            --accent: #0077ff;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+            --text-light: #939ba2;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --card-bg: #ffffff;
+            --border-color: #e5e5e5;
+            --gradient-primary: linear-gradient(135deg, #0065ff 0%, #00c3ff 100%);
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-blue: 0 8px 25px rgba(0, 101, 255, 0.25);
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 20px;
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.5s ease;
+            --transition-slow: 0.8s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--light-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-light);
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background: var(--white);
+            padding: 15px 0;
+            box-shadow: var(--shadow-sm);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all var(--transition-medium);
+        }
+
+        .navbar.scrolled {
+            padding: 8px 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-left: 10px;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 8px 16px;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transform: translateX(-50%);
+            transition: width var(--transition-fast);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link:hover:before,
+        .nav-link.active:before {
+            width: 60%;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-top: 100px;
+            padding-bottom: 80px;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+            display: inline-block;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+        }
+
+        /* Movie Details Styles */
+        .movie-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .movie-poster-container {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 30px;
+        }
+
+        .movie-poster {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform var(--transition-medium);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .movie-poster-container:hover .movie-poster {
+            transform: rotateY(5deg) rotateX(3deg);
+        }
+
+        .movie-poster img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--border-radius-md);
+        }
+
+        .movie-info-container {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+
+        .movie-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .movie-badges {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .movie-badge {
+            padding: 6px 12px;
+            background-color: var(--light-bg);
+            border-radius: 30px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .imdb-badge {
+            background-color: #f3ce13;
+            color: #000;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .imdb-badge i {
+            margin-right: 5px;
+        }
+
+        .movie-overview {
+            margin-bottom: 25px;
+            color: var(--text-muted);
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        .movie-meta {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            background: var(--light-bg);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .movie-meta-item {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            text-align: center;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .movie-meta-item:last-child {
+            border-right: none;
+        }
+
+        .meta-label {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .meta-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .movie-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn-trailer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 25px;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-trailer:hover {
+            background-color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-trailer i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        .btn-ticket {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 25px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 30px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-blue);
+        }
+
+        .btn-ticket:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 101, 255, 0.4);
+        }
+
+        .btn-ticket i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        /* Date Selector */
+        .date-section {
+            margin: 40px 0;
+            background-color: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 25px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+        }
+
+        .date-slider {
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .date-list {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+            padding: 10px 0;
+            margin: 0 -10px;
+        }
+
+        .date-list::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .date-item {
+            min-width: 90px;
+            padding: 15px 5px;
+            margin: 0 8px;
+            text-align: center;
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            transform-origin: center bottom;
+        }
+
+        .date-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .date-item.active {
+            background: var(--gradient-primary);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--shadow-blue);
+            border-color: transparent;
+            color: white;
+        }
+
+        .date-day {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .date-num {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .date-month {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .date-item.active .date-day,
+        .date-item.active .date-month,
+        .date-item.active .date-num {
+            color: white;
+        }
+
+        /* Theatre Types Section */
+        .theatre-section {
+            margin-bottom: 40px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 25px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .theatre-types-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .theatre-tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-weight: 500;
+            position: relative;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+        }
+
+        .theatre-tab i {
+            margin-right: 8px;
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .theatre-tab:hover {
+            color: var(--primary);
+        }
+
+        .theatre-tab.active {
+            color: var(--primary);
+        }
+
+        .theatre-tab-indicator {
+            position: absolute;
+            bottom: -1px;
+            height: 2px;
+            background-color: var(--primary);
+            transition: all var(--transition-medium);
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .time-slot {
+            padding: 12px;
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .time-slot:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .time-slot.active {
+            background: var(--gradient-primary);
+            border-color: transparent;
+            box-shadow: var(--shadow-blue);
+            transform: translateY(-5px);
+            color: white;
+        }
+
+        .time-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .availability {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .time-slot.active .time-value,
+        .time-slot.active .availability {
+            color: white;
+        }
+
+        /* Booking Summary */
+        .booking-summary {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 30px;
+            position: sticky;
+            top: 100px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-md);
+        }
+
+        .booking-summary:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .summary-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            color: var(--text-dark);
+        }
+
+        .summary-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            height: 2px;
+            width: 100%;
+            background: var(--primary);
+        }
+
+        .summary-card {
+            background: var(--light-bg);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .theatre-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .theatre-name i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .info-label {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .info-value i {
+            margin-right: 5px;
+            color: var(--primary);
+        }
+
+        .seat-preview {
+            background: var(--light-bg);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .screen {
+            height: 8px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            width: 80%;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .screen::before {
+            content: 'SCREEN';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--text-light);
+            letter-spacing: 1px;
+        }
+
+        .seat-color.available {
+            background-color: var(--light-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .seat-color.selected {
+            background-color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .seat-color.occupied {
+            background-color: var(--text-light);
+            border: 1px solid var(--text-light);
+        }
+
+        .note {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .note i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .summary-total {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .summary-total .summary-value {
+            color: var(--primary);
+        }
+
+        .btn-checkout {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-blue);
+        }
+
+        .btn-checkout:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 101, 255, 0.4);
+        }
+
+        /* Footer Styles */
+        footer {
+            background: var(--white);
+            border-top: 1px solid var(--border-color);
+            padding: 60px 0 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            height: 2px;
+            width: 40px;
+            background: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            margin-right: 15px;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+            color: white;
+            box-shadow: var(--shadow-blue);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a i {
+            margin-right: 10px;
+            font-size: 0.75rem;
+            color: var(--primary);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .app-btn {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: var(--light-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .app-btn:hover {
+            background: var(--white);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .app-btn i {
+            font-size: 2rem;
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .movie-title {
+                font-size: 2rem;
+            }
+
+            .booking-summary {
+                position: static;
+                margin-top: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-top: 80px;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .movie-title {
+                font-size: 1.8rem;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+                gap: 10px;
+            }
+
+            .time-value {
+                font-size: 1rem;
+            }
+
+            .date-item {
+                min-width: 75px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .movie-actions {
+                flex-direction: column;
+            }
+
+            .btn-trailer,
+            .btn-ticket {
+                width: 100%;
+            }
+
+            .movie-meta-item {
+                padding: 10px;
+            }
+
+            .meta-value {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Animation styles */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Movie Backdrop -->
+    <div class="movie-backdrop" id="movieBackdrop"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-ticket-alt me-2 text-primary"></i>
+                    <span class="fw-bold">CineApp</span>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto me-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="allmovies.html">Movies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact Us</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <!-- Login/Signup buttons (shown when logged out) -->
+                    <a href="login.html" class="btn btn-outline-primary rounded-pill px-4 py-2 me-2 login-btn">
+                        <i class="fas fa-user-circle me-1"></i> Login
+                    </a>
+                    <a href="signup.html" class="btn btn-primary rounded-pill px-4 py-2 signup-btn">
+                        <i class="fas fa-user-plus me-1"></i> Sign Up
+                    </a>
+                    
+                    <!-- Profile dropdown (shown when logged in) -->
+                    <div class="dropdown profile-menu" style="display: none;">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="rounded-circle overflow-hidden" style="width: 35px; height: 35px;">
+                                <img src="https://ui-avatars.com/api/?name=John+Doe&background=0065ff&color=fff" class="img-fluid" alt="Profile">
+                            </div>
+                            <span class="ms-2 d-none d-sm-inline user-name">John</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-ticket-alt me-2"></i> My Tickets</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i> Watchlist</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item logout-btn" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <br><br><br>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title animate-fadeInUp" style="animation-delay: 0.1s;">Movie Showtimes</h1>
+                <p class="page-subtitle animate-fadeInUp" style="animation-delay: 0.2s;">Choose your preferred showtime and book tickets</p>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="movie-container">
+                        <div class="movie-poster-container animate-fadeInUp" style="animation-delay: 0.3s;">
+                            <div class="movie-poster" id="moviePoster">
+                                <img src="images/movie1.jpg" alt="Movie Poster" class="img-fluid">
+                            </div>
+                        </div>
+                        
+                        <div class="movie-info-container">
+                            <h2 class="movie-title animate-fadeInUp" style="animation-delay: 0.4s;">Nelum Kuluna</h2>
+                            <div class="movie-badges animate-fadeInUp" style="animation-delay: 0.5s;">
+                                <span class="movie-badge">Action</span>
+                                <span class="movie-badge">Drama</span>
+                                <span class="movie-badge">Thriller</span>
+                                <span class="movie-badge imdb-badge"><i class="fas fa-star"></i> 6.0/10</span>
+                                <span class="movie-badge">12+</span>
+                            </div>
+                            <p class="movie-overview animate-fadeInUp" style="animation-delay: 0.6s;">
+                                A gripping story about a man's quest for justice in a corrupt world. Follow the protagonist as he navigates through dangerous territories and confronts powerful enemies to uncover the truth behind a sinister conspiracy.
+                            </p>
+                            <div class="movie-meta animate-fadeInUp" style="animation-delay: 0.7s;">
+                                <div class="movie-meta-item">
+                                    <span class="meta-label">Duration</span>
+                                    <span class="meta-value">2h 30m</span>
+                                </div>
+                                <div class="movie-meta-item">
+                                    <span class="meta-label">Director</span>
+                                    <span class="meta-value">John Smith</span>
+                                </div>
+                                <div class="movie-meta-item">
+                                    <span class="meta-label">Release</span>
+                                    <span class="meta-value">2025</span>
+                                </div>
+                                <div class="movie-meta-item">
+                                    <span class="meta-label">Language</span>
+                                    <span class="meta-value">Sinhala</span>
+                                </div>
+                            </div>
+                            <div class="movie-actions animate-fadeInUp" style="animation-delay: 0.8s;">
+                                <button class="btn-trailer" data-bs-toggle="modal" data-bs-target="#trailerModal">
+                                    <i class="fas fa-play"></i> Watch Trailer
+                                </button>
+                                <button class="btn-ticket" id="getTicketsBtn">
+                                    <i class="fas fa-ticket-alt"></i> Get Tickets
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Date Selector -->
+                    <div class="date-section animate-fadeInUp" style="animation-delay: 0.9s;">
+                        <h3 class="section-title">Select Date</h3>
+                        <div class="date-slider">
+                            <div class="date-list" id="dateList">
+                                <div class="date-item" data-date="2025-04-15">
+                                    <div class="date-day">Mon</div>
+                                    <div class="date-num">15</div>
+                                    <div class="date-month">Apr</div>
+                                </div>
+                                <div class="date-item active" data-date="2025-04-16">
+                                    <div class="date-day">Tue</div>
+                                    <div class="date-num">16</div>
+                                    <div class="date-month">Apr</div>
+                                </div>
+                                <div class="date-item" data-date="2025-04-17">
+                                    <div class="date-day">Wed</div>
+                                    <div class="date-num">17</div>
+                                    <div class="date-month">Apr</div>
+                                </div>
+                                <div class="date-item" data-date="2025-04-18">
+                                    <div class="date-day">Thu</div>
+                                    <div class="date-num">18</div>
+                                    <div class="date-month">Apr</div>
+                                </div>
+                                <div class="date-item" data-date="2025-04-19">
+                                    <div class="date-day">Fri</div>
+                                    <div class="date-num">19</div>
+                                    <div class="date-month">Apr</div>
+                                </div>
+                                <div class="date-item" data-date="2025-04-20">
+                                    <div class="date-day">Sat</div>
+                                    <div class="date-num">20</div>
+                                    <div class="date-month">Apr</div>
+                                </div>
+                                <div class="date-item" data-date="2025-04-21">
+                                    <div class="date-day">Sun</div>
+                                    <div class="date-num">21</div>
+                                    <div class="date-month">Apr</div>
+                                </div>
+                                <div class="date-item" data-date="2025-04-22">
+                                    <div class="date-day">Mon</div>
+                                    <div class="date-num">22</div>
+                                    <div class="date-month">Apr</div>
+                                </div>
+                            </div>
+                            <div class="date-controls">
+                                <div class="date-arrow prev" id="datePrev">
+                                    <i class="fas fa-chevron-left"></i>
+                                </div>
+                                <div class="date-arrow next" id="dateNext">
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Theatre Types -->
+                    <div class="theatre-section animate-fadeInUp" style="animation-delay: 1s;">
+                        <h3 class="section-title">Select Format & Time</h3>
+                        <div class="theatre-types-tabs" id="theatreTypeTabs">
+                            <div class="theatre-tab active" data-target="format2d">
+                                <i class="fas fa-film"></i> 2D
+                            </div>
+                            <div class="theatre-tab" data-target="format3d">
+                                <i class="fas fa-cube"></i> 3D
+                            </div>
+                            <div class="theatre-tab-indicator" style="left: 0; width: 75px;"></div>
+                        </div>
+
+                        <!-- 2D Format -->
+                        <div class="theatre-content active" id="format2d">
+                            <div class="theatre-type-name">
+                                <span class="type-name">2D Standard</span>
+                                <span class="price-range"><i class="fas fa-tag"></i> Rs 800 - 1,200</span>
+                            </div>
+                            <div class="time-slots">
+                                <div class="time-slot">
+                                    <div class="time-value">11:00</div>
+                                    <div class="availability">95 seats</div>
+                                </div>
+                                <div class="time-slot">
+                                    <div class="time-value">13:45</div>
+                                    <div class="availability">108 seats</div>
+                                </div>
+                                <div class="time-slot active">
+                                    <div class="time-value">14:40</div>
+                                    <div class="availability">75 seats</div>
+                                </div>
+                                <div class="time-slot">
+                                    <div class="time-value">17:15</div>
+                                    <div class="availability">120 seats</div>
+                                </div>
+                                <div class="time-slot">
+                                    <div class="time-value">20:00</div>
+                                    <div class="availability">45 seats</div>
+                                </div>
+                                <div class="time-slot">
+                                    <div class="time-value">22:30</div>
+                                    <div class="availability">165 seats</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3D Format -->
+                        <div class="theatre-content" id="format3d">
+                            <div class="theatre-type-name">
+                                <span class="type-name">3D Enhanced</span>
+                                <span class="price-range"><i class="fas fa-tag"></i> Rs 1,300 - 1,700</span>
+                            </div>
+                            <div class="time-slots">
+                                <div class="time-slot">
+                                    <div class="time-value">12:30</div>
+                                    <div class="availability">85 seats</div>
+                                </div>
+                                <div class="time-slot">
+                                    <div class="time-value">15:15</div>
+                                    <div class="availability">92 seats</div>
+                                </div>
+                                <div class="time-slot">
+                                    <div class="time-value">18:00</div>
+                                    <div class="availability">110 seats</div>
+                                </div>
+                                <div class="time-slot">
+                                    <div class="time-value">21:15</div>
+                                    <div class="availability">55 seats</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="booking-summary animate-fadeInUp" style="animation-delay: 1.1s;">
+                        <h3 class="summary-title">Booking Summary</h3>
+                        <div class="summary-card">
+                            <div class="theatre-name">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Malabe Theater Hall
+                            </div>
+                            <div class="summary-info">
+                                <div class="summary-info-item">
+                                    <div class="info-label">Date</div>
+                                    <div class="info-value" id="summaryDate">
+                                        <i class="far fa-calendar-alt"></i> 16 Apr 2025
+                                    </div>
+                                </div>
+                                <div class="summary-info-item">
+                                    <div class="info-label">Showtime</div>
+                                    <div class="info-value" id="summaryTime">
+                                        <i class="far fa-clock"></i> 14:40
+                                    </div>
+                                </div>
+                                <div class="summary-info-item">
+                                    <div class="info-label">Format</div>
+                                    <div class="info-value" id="summaryFormat">
+                                        <i class="fas fa-film"></i> 2D Standard
+                                    </div>
+                                </div>
+                                <div class="summary-info-item">
+                                    <div class="info-label">Price</div>
+                                    <div class="info-value" id="summaryPrice">
+                                        <i class="fas fa-tag"></i> Rs 1,000
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="seat-preview">
+                            <div class="screen"></div>
+                            <div class="seats" id="seatMap">
+                                <!-- Dynamic seats will be populated here -->
+                            </div>
+                            <div class="seat-types">
+                                <div class="seat-type">
+                                    <div class="seat-color available"></div>
+                                    <span>Available</span>
+                                </div>
+                                <div class="seat-type">
+                                    <div class="seat-color selected"></div>
+                                    <span>Selected</span>
+                                </div>
+                                <div class="seat-type">
+                                    <div class="seat-color occupied"></div>
+                                    <span>Occupied</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="note">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Full seat selection will be available on the next step</span>
+                        </div>
+
+                        <div class="summary-total">
+                            Total: <span class="text-end float-end" id="totalPrice">Rs 1,000.00</span>
+                        </div>
+
+                        <a href="seat-selection.html" class="btn-checkout" id="continueButton">
+                            <i class="fas fa-arrow-right"></i> Continue to Seat Selection
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trailer Modal -->
+    <div class="modal fade trailer-modal" id="trailerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close-btn" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="video-container">
+                        <!-- This will be set by JavaScript -->
+                        <div id="trailerPlaceholder" class="w-100 h-100 d-flex align-items-center justify-content-center bg-dark">
+                            <div class="spinner-border text-light" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <div class="mb-4">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none footer-logo">
+                            <i class="fas fa-ticket-alt me-2 text-primary"></i>
+                            <span class="footer-logo-text">CineApp</span>
+                        </a>
+                    </div>
+                    <p class="footer-about mb-4">The easiest way to book movie tickets. Browse showtimes, select your seats, and experience the magic of cinema - all in one place.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Movies</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cinemas</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Offers & Promos</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Gift Cards</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Coming Soon</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Movie News</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="footer-heading">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> My Account</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Help Center</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="footer-heading">Features</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Rewards Program</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Partner Program</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Corporate Bookings</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Premium Access</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Student Discounts</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Movie Events</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading">Download Our App</h5>
+                    <p class="text-muted mb-3">Get the ultimate cinema experience on your mobile</p>
+                    <div class="download-app">
+                        <a href="#" class="app-btn">
+                            <i class="fab fa-google-play"></i>
+                            <div>
+                                <span class="app-btn-text">GET IT ON</span>
+                                <span class="app-btn-name">Google Play</span>
+                            </div>
+                        </a>
+                        <a href="#" class="app-btn">
+                            <i class="fab fa-apple"></i>
+                            <div>
+                                <span class="app-btn-text">DOWNLOAD ON THE</span>
+                                <span class="app-btn-name">App Store</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <p class="copyright">&copy; 2025 CineApp. All Rights Reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="d-inline-flex">
+                            <img src="https://via.placeholder.com/40x25?text=Visa" alt="Payment Method" class="me-2">
+                            <img src="https://via.placeholder.com/40x25?text=MC" alt="Payment Method" class="me-2">
+                            <img src="https://via.placeholder.com/40x25?text=Amex" alt="Payment Method" class="me-2">
+                            <img src="https://via.placeholder.com/40x25?text=PayPal" alt="Payment Method">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <a href="#" class="back-to-top btn btn-primary rounded-circle" style="position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; z-index: 999;">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Notification container -->
+    <div class="notification-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/movie.js"></script>
+    <script>
+        AOS.init();
+
+        // Initialize cart count on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            
+            // Add click event to continueButton
+            const continueButton = document.getElementById('continueButton');
+            if (continueButton) {
+                continueButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Create booking details
+                    const movieTitle = document.querySelector('.movie-title')?.textContent || 'Nelum Kuluna';
+                    const moviePosterElem = document.querySelector('#moviePoster img');
+                    const movieImage = moviePosterElem ? moviePosterElem.src : 'images/movie1.jpg';
+                    const dateText = document.querySelector('#summaryDate')?.textContent || '16 Apr 2025';
+                    const timeText = document.querySelector('#summaryTime')?.textContent || '14:40';
+                    const formatText = document.querySelector('#summaryFormat')?.textContent || '2D Standard';
+                    const theaterText = document.querySelector('.theatre-name')?.textContent.trim() || 'Malabe Theater Hall';
+                    const priceText = document.querySelector('#summaryPrice')?.textContent || 'Rs 1,000';
+                    const price = parseFloat(priceText.replace(/[^0-9.]/g, '')) || 1000;
+                    
+                    // Save booking info for seat selection page
+                    const bookingInfo = {
+                        movieId: 1,
+                        title: movieTitle,
+                        date: dateText,
+                        time: timeText,
+                        format: formatText,
+                        theater: theaterText,
+                        price: price,
+                        image: movieImage
+                    };
+                    
+                    // Store booking details in localStorage
+                    localStorage.setItem('selectedBooking', JSON.stringify(bookingInfo));
+                    
+                    // Navigate to seat selection page
+                    window.location.href = 'seat-selection.html';
+                });
+            }
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Movie trailers integration with modals
+        const trailerModal = document.getElementById('trailerModal');
+        if (trailerModal) {
+            trailerModal.addEventListener('show.bs.modal', function() {
+                const trailerPlaceholder = document.getElementById('trailerPlaceholder');
+                if (trailerPlaceholder) {
+                    // Replace placeholder with actual YouTube embed
+                    setTimeout(() => {
+                        trailerPlaceholder.innerHTML = `
+                            <iframe 
+                                width="100%" 
+                                height="100%" 
+                                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
+                                title="Movie Trailer" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen
+                            ></iframe>
+                        `;
+                    }, 1000); // Simulated loading time
+                }
+            });
+            
+            trailerModal.addEventListener('hidden.bs.modal', function() {
+                const trailerPlaceholder = document.getElementById('trailerPlaceholder');
+                if (trailerPlaceholder) {
+                    // Reset placeholder
+                    trailerPlaceholder.innerHTML = `
+                        <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-dark">
+                            <div class="spinner-border text-light" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        // Custom notification function 
+        function showNotification(message, type) {
+            // Check if notification container exists, if not create it
+            let notificationContainer = document.querySelector('.notification-container');
+            
+            if (!notificationContainer) {
+                notificationContainer = document.createElement('div');
+                notificationContainer.className = 'notification-container';
+                notificationContainer.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    z-index: 9999;
+                `;
+                document.body.appendChild(notificationContainer);
+            }
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            
+            let bgColor, iconClass;
+            switch(type) {
+                case 'success':
+                    bgColor = 'success';
+                    iconClass = 'check-circle';
+                    break;
+                case 'error':
+                    bgColor = 'danger';
+                    iconClass = 'exclamation-circle';
+                    break;
+                case 'info':
+                default:
+                    bgColor = 'info';
+                    iconClass = 'info-circle';
+                    break;
+            }
+            
+            notification.className = `alert alert-${bgColor} notification`;
+            notification.style.cssText = `
+                margin-bottom: 10px;
+                min-width: 300px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                animation: slide-in 0.3s forwards;
+            `;
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-${iconClass} me-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add to container
+            notificationContainer.appendChild(notification);
+            
+            // Remove after delay
+            setTimeout(() => {
+                notification.style.animation = 'slide-out 0.3s forwards';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Update cart count display
+        function updateCartCount() {
+            const cartBadge = document.querySelector('.notification-badge');
+            if (cartBadge) {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+                
+                cartBadge.textContent = totalItems;
+                cartBadge.style.display = totalItems > 0 ? 'block' : 'none';
+            }
+        }
+
+        // Back to top button functionality
+        const backToTop = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTop.style.opacity = '1';
+                backToTop.style.pointerEvents = 'auto';
+            } else {
+                backToTop.style.opacity = '0';
+                backToTop.style.pointerEvents = 'none';
+            }
+        });
+        
+        // Initialize back to top button
+        backToTop.style.opacity = '0';
+        backToTop.style.transition = 'opacity 0.3s, transform 0.3s';
+        backToTop.style.pointerEvents = 'none';
+        
+        // Add animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slide-in {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slide-out {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+
+            .btn-checkout {
+                transition: all 0.3s ease;
+                overflow: hidden;
+                position: relative;
+                z-index: 1;
+            }
+
+            .btn-checkout:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to right, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.13) 77%, rgba(255,255,255,0.5) 92%, rgba(255,255,255,0.3) 100%);
+                z-index: -2;
+            }
+
+            .btn-checkout:before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0%;
+                height: 100%;
+                background: linear-gradient(to right, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.1) 77%, rgba(255,255,255,0.25) 92%, rgba(255,255,255,0.1) 100%);
+                transition: all 0.3s;
+                z-index: -1;
+            }
+
+            .btn-checkout:hover:before {
+                width: 100%;
+            }
+
+            .movie-card, .cinema-card, .date-item, .time-slot, .theatre-tab {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                will-change: transform;
+            }
+
+            .date-item:hover, .time-slot:hover, .theatre-tab:hover {
+                transform: translateY(-5px);
+            }
+
+            .movie-info-container, .seat-preview, .summary-card {
+                transition: all 0.3s ease;
+            }
+
+            .movie-info-container:hover, .seat-preview:hover, .summary-card:hover {
+                box-shadow: 0 15px 30px rgba(0, 101, 255, 0.15);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

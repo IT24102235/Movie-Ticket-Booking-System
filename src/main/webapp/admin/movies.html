@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineApp - Movies Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="d-flex align-items-center py-3 px-4">
+                    <i class="fas fa-ticket-alt me-2 text-white"></i>
+                    <span class="fs-4 fw-bold text-white">CineApp</span>
+                </div>
+            </div>
+                
+                <div class="menu-category">Content Management</div>
+                <ul class="list-unstyled">
+                    <li class="sidebar-item active">
+                        <a href="movies.html" class="sidebar-link">
+                            <i class="fas fa-film sidebar-icon"></i>
+                            <span>Movies</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="showtimes.html" class="sidebar-link">
+                            <i class="fas fa-calendar-alt sidebar-icon"></i>
+                            <span>Showtimes</span>
+                        </a>
+                    </li>
+                </ul>
+        </nav>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Navbar -->
+            <nav class="navbar navbar-expand navbar-light topbar">
+                <div class="container-fluid">
+                    <!-- Sidebar Toggle -->
+                    <button id="sidebarToggle" class="btn btn-icon btn-sm">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <!-- Search Form -->
+                    <div class="ms-4 me-auto flex-grow-1">
+                        <div class="input-group">
+                            <span class="input-group-text border-end-0 bg-white">
+                                <i class="fas fa-search text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control border-start-0" placeholder="Search movies...">
+                        </div>
+                    </div>
+                    
+                    <ul class="navbar-nav ms-auto">
+                        <!-- Settings -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-cog"></i>
+                            </a>
+                        </li>                        
+                        <!-- User Profile -->
+                        <li class="nav-item ms-2">
+                            <div class="d-flex align-items-center">
+                                <div class="d-none d-md-block me-3 text-end">
+                                    <div class="fw-medium">Admin User</div>
+                                    <div class="small text-muted">Administrator</div>
+                                </div>
+                                <div class="avatar-sm bg-primary rounded-circle text-white d-flex align-items-center justify-content-center">
+                                    <span>AU</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <!-- Page Content -->
+            <div class="content-page">
+                <div class="container-fluid">
+                    <!-- Page Heading & Action Button -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h2 mb-0 text-gray-800">Movies Management</h1>
+                        <button class="btn btn-primary" id="addMovieBtn" data-bs-toggle="modal" data-bs-target="#movieModal">
+                            <i class="fas fa-plus-circle me-1"></i> Add New Movie
+                        </button>
+                    </div>
+                    
+                    <!-- Alert Container -->
+                    <div id="alertContainer"></div>
+                    
+                    <!-- Filters and Search -->
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light"><i class="fas fa-search"></i></span>
+                                        <input type="text" class="form-control" placeholder="Search movies..." id="searchMovies">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-outline-primary w-100" id="resetFilters">
+                                        <i class="fas fa-redo-alt me-1"></i> Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Movies Table -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">All Movies</h6>
+                            <!-- Export dropdown removed -->
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="moviesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="selectAllMovies">
+                                                </div>
+                                            </th>
+                                            <th>Movie</th>
+                                            <th>Release Date</th>
+                                            <th>Duration</th>
+                                            <th>Rating</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="moviesList">
+                                        <!-- Movies will be loaded here by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Empty State for No Movies -->
+                            <div id="emptyMoviesState" class="text-center py-5 d-none">
+                                <img src="https://via.placeholder.com/150x150?text=No+Movies" alt="No Movies" class="mb-3" style="opacity: 0.7;">
+                                <h5 class="text-muted">No movies found</h5>
+                                <p class="text-muted mb-3">Try changing your search criteria or add a new movie.</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#movieModal">
+                                    <i class="fas fa-plus-circle me-1"></i> Add New Movie
+                                </button>
+                            </div>
+                            
+                            <!-- Loading State -->
+                            <div id="loadingState" class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2 text-muted">Loading movies...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Card footer with pagination removed -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add/Edit Movie Modal -->
+            <div class="modal fade" id="movieModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="movieModalTitle">Add New Movie</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="movieForm" class="needs-validation" novalidate>
+                                <input type="hidden" id="movieId">
+                                
+                                <div class="row g-3 mb-3">
+                                    <!-- Poster Upload Section -->
+                                    <div class="col-md-4">
+                                        <div class="image-upload-container border rounded p-2 text-center h-100 d-flex align-items-center justify-content-center" id="posterUpload" style="cursor: pointer;">
+                                            <input type="file" id="posterInput" accept="image/*" style="display: none;">
+                                            <div id="posterPreviewContainer" class="py-4">
+                                                <i class="fas fa-image fa-2x mb-2 text-muted"></i>
+                                                <p class="mb-0">Upload Poster</p>
+                                                <small class="text-muted">(600×900px)</small>
+                                            </div>
+                                            <img id="posterPreview" class="image-preview d-none img-fluid rounded" alt="Poster Preview">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Main Movie Details -->
+                                    <div class="col-md-8">
+                                        <div class="mb-3">
+                                            <label for="title" class="form-label">Movie Title <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="title" required>
+                                        </div>
+                                        
+                                        <div class="row g-2">
+                                            <div class="col-md-6">
+                                                <label for="director" class="form-label">Director</label>
+                                                <input type="text" class="form-control" id="director">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="releaseDate" class="form-label">Release Date <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" id="releaseDate" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label for="duration" class="form-label">Duration (min) <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="duration" min="1" required>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <label for="price" class="form-label">Ticket Price <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" class="form-control" id="price" min="0" step="0.01" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 mt-3">
+                                    <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="description" rows="3" required></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="saveMovieBtn">
+                                <i class="fas fa-save me-1"></i> Save Movie
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Delete Confirmation Modal -->
+            <div class="modal fade" id="deleteMovieModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title">Confirm Delete</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete <strong id="deleteMovieTitle"></strong>? This action cannot be undone.</p>
+                            <input type="hidden" id="deleteMovieId">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                                <i class="fas fa-trash me-1"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- View Movie Modal -->
+            <div class="modal fade" id="viewMovieModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="viewMovieTitle">Movie Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <div class="modal-movie-poster">
+                                        <img id="viewMoviePoster" src="https://via.placeholder.com/300x450?text=No+Poster" alt="Movie Poster" class="img-fluid rounded">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h4 id="viewMovieTitle" class="mb-3">Movie Title</h4>
+                                    <p id="viewMovieDescription" class="mb-4">Movie description will be shown here.</p>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <h6 class="text-muted">Director</h6>
+                                            <p id="viewMovieDirector">Director Name</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="text-muted">Release Date</h6>
+                                            <p id="viewMovieReleaseDate">January 1, 2023</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <h6 class="text-muted">Duration</h6>
+                                            <p id="viewMovieDuration">120 min</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <h6 class="text-muted">Cast</h6>
+                                    <p id="viewMovieCast">Actor names will appear here</p>
+                                    
+                                    <h6 class="text-muted mt-3">Ticket Price</h6>
+                                    <p id="viewMoviePrice">$12.99</p>
+                                    
+                                    <div class="mt-3" id="viewMovieTrailerContainer">
+                                        <a href="#" target="_blank" id="viewMovieTrailer" class="btn btn-outline-primary">
+                                            <i class="fab fa-youtube me-1"></i> Watch Trailer
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="editMovieFromViewBtn">
+                                <i class="fas fa-edit me-1"></i> Edit Movie
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 mb-2 mb-md-0">
+                            <span>© 2024 CineApp Admin Dashboard</span>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <a href="#">Privacy Policy</a>
+                            <span class="mx-1">·</span>
+                            <a href="#">Terms of Use</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="../js/admin/movies.js"></script>
+</body>
+</html>
